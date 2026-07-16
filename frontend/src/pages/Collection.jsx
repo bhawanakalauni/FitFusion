@@ -141,13 +141,23 @@ const Collection = () => {
         </div>
 
         {/* Map Products */}
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
-          {
-            filterProducts.slice(0, visibleCount).map((item,index)=>(
-              <ProductItem key={index} name={item.name} id={item._id} price={item.price} image={item.image} />
-            ))
-          }
-        </div>
+        {filterProducts.length === 0 ? (
+          <div className='flex flex-col items-center justify-center py-20 px-4 text-center bg-slate-50 border border-dashed border-slate-300 rounded-sm mt-4 animate-fade-in'>
+            <p className='text-slate-400 text-4xl mb-3'>🔍</p>
+            <h4 className='text-base font-semibold text-slate-800 mb-1'>No Products Found</h4>
+            <p className='text-xs text-slate-500 max-w-xs leading-relaxed'>
+              We couldn't find any items matching your active filters or search terms. Try clearing some selections or searching for something else!
+            </p>
+          </div>
+        ) : (
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
+            {
+              filterProducts.slice(0, visibleCount).map((item,index)=>(
+                <ProductItem key={index} name={item.name} id={item._id} price={item.price} image={item.image} />
+              ))
+            }
+          </div>
+        )}
 
         {filterProducts.length > visibleCount && (
           <div className='flex justify-center mt-12'>

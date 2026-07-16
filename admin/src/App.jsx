@@ -7,6 +7,8 @@ import List from './pages/List'
 import Orders from './pages/Orders'
 import Edit from './pages/Edit'
 import Login from './components/Login'
+import ServerLoader from './components/ServerLoader'
+import axios from 'axios'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,6 +18,28 @@ export const currency = '₹'
 const App = () => {
 
   const [token, setToken] = useState(localStorage.getItem('token')?localStorage.getItem('token'):'');
+  const [serverLoading, setServerLoading] = useState(true);
+  const [serverError, setServerError] = useState(false);
+
+  const checkServerStatus = async () => {
+    setServerLoading(true);
+    setServerError(false);
+    try {
+      const response = await axios.get(backendUrl + '/test');
+      if (response.data.success) {
+        setServerLoading(false);
+      } else {
+        setServerError(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setServerError(true);
+    }
+  };
+
+  useEffect(() => {
+    checkServerStatus();
+  }, []);
 
   useEffect(()=>{
     localStorage.setItem('token',token)
@@ -24,6 +48,7 @@ const App = () => {
   return (
     <div className='bg-gray-50 min-h-screen'>
       <ToastContainer />
+      {serverLoading && <ServerLoader error={serverError} onRetry={checkServerStatus} />}
       {token === ""
         ? <Login setToken={setToken} />
         : <>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Collection from './pages/Collection'
@@ -13,14 +13,19 @@ import Profile from './pages/Profile'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import SearchBar from './components/SearchBar'
+import ServerLoader from './components/ServerLoader'
+import { ShopContext } from './context/ShopContext'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const App = () => {
+  const { serverLoading, serverError, getProductsData } = useContext(ShopContext);
+
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
       <ToastContainer />
+      {serverLoading && <ServerLoader error={serverError} onRetry={getProductsData} />}
       <Navbar />
       <SearchBar />
       <Routes>
