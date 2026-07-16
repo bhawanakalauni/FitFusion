@@ -30,4 +30,8 @@ app.get('/',(req,res)=>{
     res.send("API Working")
 })
 
+app.get('/test',(req,res)=>{
+    res.json({ success: true, message: "FitFusion Test Route is working successfully!" })
+})
+
 app.listen(port, ()=> console.log('Server started on PORT : '+ port))
