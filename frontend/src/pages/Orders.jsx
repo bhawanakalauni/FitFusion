@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const Orders = () => {
 
-  const { backendUrl, token , currency} = useContext(ShopContext);
+  const { backendUrl, token , currency, navigate} = useContext(ShopContext);
 
   const [orderData,setorderData] = useState([])
   const [page, setPage] = useState(1);
@@ -34,8 +34,12 @@ const Orders = () => {
     }
   }
 
-  useEffect(()=>{
-    loadOrderData(1, false)
+  useEffect(() => {
+    if (!token) {
+      navigate('/login')
+    } else {
+      loadOrderData(1, false)
+    }
   },[token])
 
   return (

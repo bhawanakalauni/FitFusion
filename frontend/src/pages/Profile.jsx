@@ -63,7 +63,11 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        fetchUserProfile();
+        if (!token) {
+            navigate('/login');
+        } else {
+            fetchUserProfile();
+        }
     }, [token]);
 
     if (fetching) {

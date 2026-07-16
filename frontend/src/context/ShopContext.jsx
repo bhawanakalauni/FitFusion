@@ -21,7 +21,7 @@ const ShopContextProvider = (props) => {
         }
     });
     const [products, setProducts] = useState([]);
-    const [token, setToken] = useState('')
+    const [token, setToken] = useState(() => localStorage.getItem('token') || '')
     const [stockErrors, setStockErrors] = useState([])
     const navigate = useNavigate();
 
